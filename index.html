@@ -26,7 +26,7 @@
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:#e9e1cf;overflow:hidden}
 #wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
-#stage{position:relative;width:1920px;height:1080px;transform-origin:center center;background:var(--paper);overflow:hidden;
+#stage{position:relative;flex:none;width:1920px;min-width:1920px;max-width:1920px;height:1080px;min-height:1080px;transform-origin:center center;background:var(--paper);overflow:hidden;
   font-family:'Courier Prime',Courier,monospace;color:var(--ink)}
 #world{position:absolute;inset:0;width:1920px;height:1080px}
 #grain{position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;opacity:.55;
@@ -530,8 +530,8 @@ const bSpeed=document.getElementById('bSpeed');
 bSpeed.onclick=()=>{speed=speed===1?2:speed===2?3:1;bSpeed.textContent=`⚡ ${speed}×`;schedule();};
 document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(cur+1);if(e.key==='ArrowLeft')go(cur-1);if(e.key===' '){e.preventDefault();bPlay.click();}});
 /* fit stage */
-function fit(){const st=document.getElementById('stage');const k=Math.min(innerWidth/1920,innerHeight/1080);st.style.transform=`scale(${k})`;}
-addEventListener('resize',fit); fit();
+function fit(){const st=document.getElementById('stage');const vw=document.documentElement.clientWidth||innerWidth,vh=document.documentElement.clientHeight||innerHeight;const k=Math.min(vw/1920,vh/1080);st.style.transform=`scale(${k})`;}
+addEventListener('resize',fit); addEventListener('orientationchange',fit); if(window.visualViewport) visualViewport.addEventListener('resize',fit); fit();
 const params=new URLSearchParams(location.search);
 if(params.has('step')){playing=false;bPlay.textContent='▶ play';}
 if(params.has('noloop')) window.NO_LOOP=true;
